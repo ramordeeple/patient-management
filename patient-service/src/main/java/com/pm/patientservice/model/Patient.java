@@ -25,9 +25,11 @@ public class Patient {
     private String address;
 
     @NotNull
+    @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
 
     @NotNull
+    @Column(name = "registered_date", nullable = false)
     private LocalDate registeredDate;
 
     public UUID getId() {
