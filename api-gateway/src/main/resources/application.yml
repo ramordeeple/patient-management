@@ -14,7 +14,6 @@ spring:
             - Path=/api/patients/**
           filters:
             - StripPrefix=1
-
         ## REST-CLIENT -> http://localhost:4004/api-docs/patients
         ## API-GATEWAY -> http://patient-service:4000/v3/api-docs
         - id: api-docs-patient-route
