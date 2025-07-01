@@ -32,6 +32,7 @@ public class JwtValidationGatewayFilterFactory extends
 
             return webClient.get()
                     .uri("/validate")
+                    .header(HttpHeaders.AUTHORIZATION, token)
                     .retrieve()
                     .toBodilessEntity()
                     .then(chain.filter(exchange));

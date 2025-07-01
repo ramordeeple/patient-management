@@ -18,7 +18,7 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @Operation(summary = "generate login on user login")
+    @Operation(summary = "Generate login on user login")
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(
             @RequestBody LoginRequestDTO loginRequestDTO) {
