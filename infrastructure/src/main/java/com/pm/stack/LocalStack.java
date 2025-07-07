@@ -14,7 +14,7 @@ public class LocalStack extends Stack {
     public LocalStack(final App scope, final String id, final StackProps props) {
         super(scope, id, props);
         this.vpc = createVpc();
-        DatabaseInstance authServiceDb = createDatabase("AuthServiceDB", "auth-service-db");
+        DatabaseInstance authServiceDb = createDatabase("AuthServiceDB", "auth-service-db"); 
         DatabaseInstance patientServiceDb = createDatabase("PatientServiceDB", "patient-service-db");
     }
 
