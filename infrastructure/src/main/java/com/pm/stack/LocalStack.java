@@ -46,6 +46,6 @@ public class LocalStack extends Stack {
 
         new LocalStack(app, "localstack", props);
         app.synth();
-        System.out.println("App synthesizing in progress.....");
+        System.out.println("App synthesizing in progress....");
     }
 }
