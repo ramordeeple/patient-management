@@ -1,6 +1,5 @@
 package com.pm.stack;
 
-
 import software.amazon.awscdk.*;
 import software.amazon.awscdk.services.ec2.InstanceClass;
 import software.amazon.awscdk.services.ec2.InstanceSize;
