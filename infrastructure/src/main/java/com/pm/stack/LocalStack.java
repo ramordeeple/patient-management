@@ -16,6 +16,8 @@ public class LocalStack extends Stack {
         this.vpc = createVpc();
         DatabaseInstance authServiceDb = createDatabase("AuthServiceDB", "auth-service-db"); 
         DatabaseInstance patientServiceDb = createDatabase("PatientServiceDB", "patient-service-db");
+        CfnHealthCheck authDbHealCheck = createDbHealthCheck(authServiceDb, "AuthServiceDBHealthCheck");
+        CfnHealthCheck patientDbHealthCheck = createDbHealthCheck(patientServiceDb, "PatientServiceDBHealthCheck");
     }
 
     private Vpc createVpc() {
