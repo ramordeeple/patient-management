@@ -6,6 +6,7 @@ import software.amazon.awscdk.services.ec2.InstanceSize;
 import software.amazon.awscdk.services.ec2.InstanceType;
 import software.amazon.awscdk.services.ec2.Vpc;
 import software.amazon.awscdk.services.rds.*;
+import software.amazon.awscdk.services.route53.CfnHealthCheck;
 
 public class LocalStack extends Stack {
     private final Vpc vpc;
@@ -36,6 +37,10 @@ public class LocalStack extends Stack {
                 .databaseName(dbName)
                 .removalPolicy(RemovalPolicy.DESTROY)
                 .build();
+    }
+
+    private CfnHealthCheck createDbHealthCheck(DatabaseInstance db, String id) {
+        return CfnHealthCheck.Builder.create(this, id).build();
     }
 
     public static void main(final String[] args) {
