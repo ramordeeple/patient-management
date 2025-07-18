@@ -41,7 +41,13 @@ public class LocalStack extends Stack {
 
     private CfnHealthCheck createDbHealthCheck(DatabaseInstance db, String id) {
         return CfnHealthCheck.Builder.create(this, id)
-                .healthCheckConfig(CfnHealthCheck.HealthCheckConfigProperty.builder().build())
+                .healthCheckConfig(CfnHealthCheck.HealthCheckConfigProperty.builder()
+                        .type("TCP")
+                        .port(Token.asNumber(db.getDbInstanceEndpointPort()))
+                        .ipAddress(db.getDbInstanceEndpointAddress())
+                        .requestInterval(30)
+                        .failureThreshold(3)
+                        .build())
                 .build();
     }
 
