@@ -40,7 +40,9 @@ public class LocalStack extends Stack {
     }
 
     private CfnHealthCheck createDbHealthCheck(DatabaseInstance db, String id) {
-        return CfnHealthCheck.Builder.create(this, id).build();
+        return CfnHealthCheck.Builder.create(this, id)
+                .healthCheckConfig(CfnHealthCheck.HealthCheckConfigProperty.builder().build())
+                .build();
     }
 
     public static void main(final String[] args) {
