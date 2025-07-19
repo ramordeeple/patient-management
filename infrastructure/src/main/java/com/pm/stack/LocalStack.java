@@ -1,5 +1,6 @@
 package com.pm.stack;
 
+import com.amazonaws.services.ecs.model.Cluster;
 import software.amazon.awscdk.*;
 import software.amazon.awscdk.services.ec2.*;
 import software.amazon.awscdk.services.ec2.InstanceType;
@@ -11,9 +12,11 @@ import java.util.stream.Collectors;
 
 public class LocalStack extends Stack {
     private final Vpc vpc;
+    private final Cluster ecsCluster;
 
-    public LocalStack(final App scope, final String id, final StackProps props) {
+    public LocalStack(final App scope, final String id, final StackProps props, final Cluster ecsCluster) {
         super(scope, id, props);
+        this.ecsCluster = createEcsCluster();
         this.vpc = createVpc();
         DatabaseInstance authServiceDb = createDatabase("AuthServiceDB", "auth-service-db"); 
         DatabaseInstance patientServiceDb = createDatabase("PatientServiceDB", "patient-service-db");
