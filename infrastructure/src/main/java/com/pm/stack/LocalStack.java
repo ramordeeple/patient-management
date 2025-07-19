@@ -19,6 +19,7 @@ public class LocalStack extends Stack {
         DatabaseInstance patientServiceDb = createDatabase("PatientServiceDB", "patient-service-db");
         CfnHealthCheck authDbHealCheck = createDbHealthCheck(authServiceDb, "AuthServiceDBHealthCheck");
         CfnHealthCheck patientDbHealthCheck = createDbHealthCheck(patientServiceDb, "PatientServiceDBHealthCheck");
+        CfnCluster mskCluster = createMskCluster();
     }
 
     private Vpc createVpc() {
