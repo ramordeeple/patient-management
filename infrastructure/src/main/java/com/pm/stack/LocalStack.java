@@ -63,6 +63,21 @@ public class LocalStack extends Stack {
 
         analyticsService.getNode().addDependency(mskCluster);
 
+        FargateService patientService = createFargateService("PatientService",
+                "patient-service",
+                List.of(4000),
+                patientServiceDb,
+                Map.of(
+                        "BILLING_SERVICE_ADDRESS", "host.docker.internal",
+                        "BILLING_SERVICE_SERVICE_GRPC_PORT", "9001"
+                ));
+        patientService.getNode().addDependency(patientServiceDb);
+        patientService.getNode().addDependency(patientDbHealthCheck);
+        patientService.getNode().addDependency(billingService);
+        patientService.getNode().addDependency(mskCluster);
+
+
+
     }
 
     private Vpc createVpc() {
