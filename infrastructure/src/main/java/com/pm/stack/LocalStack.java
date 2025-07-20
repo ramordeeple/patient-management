@@ -41,6 +41,15 @@ public class LocalStack extends Stack {
         CfnHealthCheck authDbHealCheck = createDbHealthCheck(authServiceDb, "AuthServiceDBHealthCheck");
         CfnHealthCheck patientDbHealthCheck = createDbHealthCheck(patientServiceDb, "PatientServiceDBHealthCheck");
         CfnCluster mskCluster = createMskCluster();
+        FargateService authService = createFargateService("AuthService", "auth-service",
+                List.of(4005),
+                authServiceDb,
+                Map.of("JWT_SECRET",
+                        "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0"));
+
+        authService.getNode().addDependency(authDbHealCheck);
+        authService.getNode().addDependency(authServiceDb);
+
     }
 
     private Vpc createVpc() {
