@@ -1,20 +1,35 @@
 package com.pm.stack;
 
-import com.amazonaws.services.ecs.model.Cluster;
-import software.amazon.awscdk.*;
-import software.amazon.awscdk.services.ec2.*;
-import software.amazon.awscdk.services.ec2.InstanceType;
-import software.amazon.awscdk.services.msk.CfnCluster;
-import software.amazon.awscdk.services.rds.*;
-import software.amazon.awscdk.services.route53.CfnHealthCheck;
 
 import java.util.stream.Collectors;
+import software.amazon.awscdk.App;
+import software.amazon.awscdk.AppProps;
+import software.amazon.awscdk.BootstraplessSynthesizer;
+import software.amazon.awscdk.RemovalPolicy;
+import software.amazon.awscdk.Stack;
+import software.amazon.awscdk.StackProps;
+import software.amazon.awscdk.Token;
+import software.amazon.awscdk.services.ec2.ISubnet;
+import software.amazon.awscdk.services.ec2.InstanceClass;
+import software.amazon.awscdk.services.ec2.InstanceSize;
+import software.amazon.awscdk.services.ec2.InstanceType;
+import software.amazon.awscdk.services.ec2.Vpc;
+import software.amazon.awscdk.services.ecs.CloudMapNamespaceOptions;
+import software.amazon.awscdk.services.ecs.Cluster;
+import software.amazon.awscdk.services.msk.CfnCluster;
+import software.amazon.awscdk.services.rds.Credentials;
+import software.amazon.awscdk.services.rds.DatabaseInstance;
+import software.amazon.awscdk.services.rds.DatabaseInstanceEngine;
+import software.amazon.awscdk.services.rds.PostgresEngineVersion;
+import software.amazon.awscdk.services.rds.PostgresInstanceEngineProps;
+import software.amazon.awscdk.services.route53.CfnHealthCheck;
+
 
 public class LocalStack extends Stack {
     private final Vpc vpc;
     private final Cluster ecsCluster;
 
-    public LocalStack(final App scope, final String id, final StackProps props, final Cluster ecsCluster) {
+    public LocalStack(final App scope, final String id, final StackProps props) {
         super(scope, id, props);
         this.ecsCluster = createEcsCluster();
         this.vpc = createVpc();
@@ -70,6 +85,17 @@ public class LocalStack extends Stack {
                         .brokerAzDistribution("DEFAULT")
                         .build())
                 .build();
+    }
+
+    // auth-service.patient-management.local
+    private Cluster createEcsCluster() {
+        return Cluster.Builder.create(this, "PatientManagementCluster")
+                .vpc(vpc)
+                .defaultCloudMapNamespace(CloudMapNamespaceOptions.builder()
+                        .name("patient-management.local")
+                        .build())
+                .build();
+
     }
 
     public static void main(final String[] args) {
