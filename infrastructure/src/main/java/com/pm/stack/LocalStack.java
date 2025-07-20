@@ -76,8 +76,6 @@ public class LocalStack extends Stack {
         patientService.getNode().addDependency(billingService);
         patientService.getNode().addDependency(mskCluster);
 
-
-
     }
 
     private Vpc createVpc() {
@@ -167,6 +165,7 @@ public class LocalStack extends Stack {
                                         .removalPolicy(RemovalPolicy.DESTROY)
                                         .retention(RetentionDays.ONE_DAY)
                                         .build())
+                                        .streamPrefix(imageName)
                                 .build()));
 
         Map<String, String> envVars = new HashMap<>();
