@@ -72,6 +72,7 @@ public class LocalStack extends Stack {
         patientService.getNode().addDependency(billingService);
         patientService.getNode().addDependency(mskCluster);
 
+        createApiGatewayService();
     }
 
     private Vpc createVpc() {
