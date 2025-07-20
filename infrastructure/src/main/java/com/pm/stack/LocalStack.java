@@ -50,6 +50,11 @@ public class LocalStack extends Stack {
         authService.getNode().addDependency(authDbHealCheck);
         authService.getNode().addDependency(authServiceDb);
 
+        FargateService billingService = createFargateService("BillingService", "billing-service",
+                List.of(4001, 9001),
+                null,
+                null);
+
     }
 
     private Vpc createVpc() {
