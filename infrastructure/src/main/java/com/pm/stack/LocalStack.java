@@ -154,6 +154,13 @@ public class LocalStack extends Stack {
 
         containerOptions.environment(envVars);
         taskDefinition.addContainer(imageName + "Container", containerOptions.build());
+
+        return FargateService.Builder.create(this, id)
+                .cluster(ecsCluster)
+                .taskDefinition(taskDefinition)
+                .assignPublicIp(false)
+                .serviceName(imageName)
+                .build();
     }
 
     public static void main(final String[] args) {
