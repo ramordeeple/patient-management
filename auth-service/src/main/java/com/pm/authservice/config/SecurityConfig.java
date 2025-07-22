@@ -1,3 +1,8 @@
+/**
+ * Security configuration class that sets up HTTP security rules
+ * and provides a password encoder for hashing user passwords.
+ */
+
 package com.pm.authservice.config;
 
 import org.springframework.context.annotation.Bean;
@@ -10,6 +15,12 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
+    /**
+     * Configures the security filter chain.
+     *
+     * - Allows all requests without authentication (for now).
+     * - Disables CSRF protection (e.g., useful for APIs).
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
@@ -18,7 +29,9 @@ public class SecurityConfig {
 
         return http.build();
     }
-
+     /** Password encoder bean using BCrypt hashing algorithm.
+     * Used for securely hashing and verifying passwords.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

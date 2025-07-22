@@ -1,3 +1,8 @@
+/**
+ * REST controller for authentication operations:
+ * handles user login and token validation.
+ */
+
 package com.pm.authservice.controller;
 
 import com.pm.authservice.dto.LoginRequestDTO;
@@ -17,7 +22,9 @@ public class AuthController {
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
-
+    /**
+     * Authenticates user credentials and returns a JWT token if successful.
+     */
     @Operation(summary = "Generate login on user login")
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(
@@ -31,16 +38,20 @@ public class AuthController {
         String token = tokenOptional.get();
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
-
+    /**
+     * Validates the JWT token passed in the Authorization header.
+     */
     @Operation(summary = "Validate Token")
     @GetMapping("/validate")
     public ResponseEntity<Void> validateToken(@RequestHeader("Authorization") String authHeader) {
 
-        // Authorization: Bearer <token>
+        /** Authorization header must be present and start with "Bearer "
+        Authorization: Bearer <token> as example*/
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
+        /** Validate token (skip "Bearer " prefix) and return appropriate status */
         return authService.validateToken(authHeader.substring(7))
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

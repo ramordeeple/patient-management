@@ -1,5 +1,9 @@
-package com.pm.authservice.dto;
+/**
+ * Data Transfer Object for user login requests,
+ * including validation for email and password fields.
+ */
 
+package com.pm.authservice.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
