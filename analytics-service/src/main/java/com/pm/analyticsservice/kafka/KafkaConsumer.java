@@ -20,8 +20,6 @@ public class KafkaConsumer {
     /**
      * Kafka listener that consumes patient events from the "patient" topic.
      * The messages are expected to be in Protobuf binary format.
-     *
-     * @param event the serialized PatientEvent message in byte array format
      */
 
     @KafkaListener(topics = "patient", groupId = "analytics-service")
