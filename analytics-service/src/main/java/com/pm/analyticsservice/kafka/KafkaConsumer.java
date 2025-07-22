@@ -18,8 +18,8 @@ public class KafkaConsumer {
     private static final Logger log = LoggerFactory.getLogger(KafkaConsumer.class);
 
     /**
-     * Kafka listener that consumes patient events from the "patient" topic.
-     * The messages are expected to be in Protobuf binary format.
+     Kafka listener that consumes patient events from the "patient" topic.
+     The messages are expected to be in Protobuf binary format.
      */
 
     @KafkaListener(topics = "patient", groupId = "analytics-service")
