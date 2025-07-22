@@ -1,6 +1,6 @@
 /**
- * Security configuration class that sets up HTTP security rules
- * and provides a password encoder for hashing user passwords.
+ Security configuration class that sets up HTTP security rules
+ and provides a password encoder for hashing user passwords.
  */
 
 package com.pm.authservice.config;

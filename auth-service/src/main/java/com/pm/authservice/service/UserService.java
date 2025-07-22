@@ -1,8 +1,8 @@
 /**
- * Service for user-related operations.
- *
- * Provides methods to interact with the UserRepository,
- * such as finding a user by their email address.
+ Service for user-related operations.
+
+ Provides methods to interact with the UserRepository,
+ such as finding a user by their email address.
  */
 
 package com.pm.authservice.service;

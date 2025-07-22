@@ -1,8 +1,8 @@
 /**
- * Global exception handler for handling JWT-related authorization errors
- * returned from downstream services via WebClient.
- *
- * Sets HTTP 401 Unauthorized status when WebClient receives a 401 response.
+ Global exception handler for handling JWT-related authorization errors
+ returned from downstream services via WebClient.
+
+ Sets HTTP 401 Unauthorized status when WebClient receives a 401 response.
  */
 
 package com.pm.apigateway.exception;
@@ -16,14 +16,14 @@ import reactor.core.publisher.Mono;
 
 
 /**
- * Global exception handler for handling unauthorized responses from WebClient calls.
+ Global exception handler for handling unauthorized responses from WebClient calls.
  */
 
 @RestControllerAdvice
 public class JwtValidationException {
     /**
-     * Handles 401 Unauthorized exceptions thrown by WebClient
-     * and sets the HTTP response status to 401.
+     Handles 401 Unauthorized exceptions thrown by WebClient
+     and sets the HTTP response status to 401.
      */
     @ExceptionHandler(WebClientResponseException.Unauthorized.class)
     public Mono<Void> handleUnauthorizedException(ServerWebExchange exchange) {

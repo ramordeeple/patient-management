@@ -1,8 +1,8 @@
 /**
- * Gateway filter that validates JWT tokens via an external auth service.
- *
- * Extracts the Bearer token from the Authorization header and calls /validate.
- * Rejects requests with HTTP 401 if the token is missing or invalid.
+ Gateway filter that validates JWT tokens via an external auth service.
+
+ Extracts the Bearer token from the Authorization header and calls /validate.
+ Rejects requests with HTTP 401 if the token is missing or invalid.
  */
 
 package com.pm.apigateway.filter;
@@ -21,8 +21,7 @@ public class JwtValidationGatewayFilterFactory extends
 
     private final WebClient webClient;
     /**
-     * Initializes WebClient with the base URL of the external authentication service.
-     *
+     Initializes WebClient with the base URL of the external authentication service.
      */
     public JwtValidationGatewayFilterFactory(WebClient.Builder webClientBuilder,
                                              @Value("${auth.service.url}") String authServiceUrl) {
@@ -31,8 +30,8 @@ public class JwtValidationGatewayFilterFactory extends
         this.webClient = webClientBuilder.baseUrl(authServiceUrl).build();
     }
     /**
-     * Applies the JWT validation logic as a Gateway filter.
-     * Extracts the Bearer token and verifies it via the external auth service.
+     Applies the JWT validation logic as a Gateway filter.
+     Extracts the Bearer token and verifies it via the external auth service.
      */
     @Override
     public GatewayFilter apply(Object config) {
@@ -48,9 +47,13 @@ public class JwtValidationGatewayFilterFactory extends
             If validation succeeds, continue processing the request. */
             return webClient.get()
                     .uri("/validate") /** Call the external auth service's /validate endpoint to check the token. */
+
                     .header(HttpHeaders.AUTHORIZATION, token) /** Add the Authorization header with the Bearer token from the original request. */
+
                     .retrieve() /** Retrieve the response but ignore the body, only care about the status code. */
+
                     .toBodilessEntity() /** If the response indicates success, continue processing the original request by passing it down the filter chain. */
+
                     .then(chain.filter(exchange));
                     /** After the token validation completes successfully,
                     continue processing the request by passing it to the next filter in the chain. */

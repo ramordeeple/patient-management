@@ -1,15 +1,14 @@
 /**
- * Service for authenticating users and validating JWT tokens.
- *
- * Handles user credential verification by checking email and password,
- * issues JWT tokens upon successful login,
- * and validates tokens for subsequent requests.
+ Service for authenticating users and validating JWT tokens.
+
+ Handles user credential verification by checking email and password,
+ issues JWT tokens upon successful login,
+ and validates tokens for subsequent requests.
  */
 
 package com.pm.authservice.service;
 
 import com.pm.authservice.dto.LoginRequestDTO;
-import com.pm.authservice.model.User;
 import com.pm.authservice.util.JwtUtil;
 import io.jsonwebtoken.JwtException;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,8 +1,8 @@
 /**
- * gRPC service implementation for billing operations.
- * Handles incoming requests to create billing accounts,
- * logs the request, and responds with a sample account ID and status.
- * (Database integration is a placeholder for future implementation.)
+ gRPC service implementation for billing operations.
+ Handles incoming requests to create billing accounts,
+ logs the request, and responds with a sample account ID and status.
+ (Database integration is a placeholder for future implementation.)
  */
 
 

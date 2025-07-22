@@ -1,18 +1,23 @@
 syntax = "proto3";
 
 option java_multiple_files = true; // splits our service request into different files
-option java_package = "billing";
+option java_package = "billing"; // Defines the Java package for the generated classes
 
+// gRPC service definition for billing-related operations
 service BillingService {
+  // RPC method to create a billing account using patient details,
+  // returns billing account information as a response
   rpc CreateBillingAccount(BillingRequest) returns (BillingResponse);
 }
 
+// Request message containing patient info needed to create a billing account
 message BillingRequest {
   string patientId = 1;
   string name = 2;
   string email = 3;
 }
 
+// Response message containing billing account details after creation
 message BillingResponse {
   string accountId = 1;
   string status = 2;

@@ -1,6 +1,6 @@
 /**
- * JPA entity representing a user in the system,
- * with fields for unique ID, email, password, and role.
+ JPA entity representing a user in the system,
+ with fields for unique ID, email, password, and role.
  */
 
 package com.pm.authservice.model;

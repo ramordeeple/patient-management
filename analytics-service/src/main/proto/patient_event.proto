@@ -1,8 +1,11 @@
 syntax = "proto3";
 
 package patients.events;
+
+// Generates separate Java files for each message to improve code organization
 option java_multiple_files = true;
 
+// Represents an event related to a patient, such as creation or update
 message PatientEvent {
   string patientId = 1;
   string name = 2;

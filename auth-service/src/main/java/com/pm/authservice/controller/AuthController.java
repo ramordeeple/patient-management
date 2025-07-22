@@ -1,6 +1,6 @@
 /**
- * REST controller for authentication operations:
- * handles user login and token validation.
+ REST controller for authentication operations:
+ handles user login and token validation.
  */
 
 package com.pm.authservice.controller;

@@ -1,8 +1,8 @@
 /**
- * Repository interface for accessing User entities from the database.
- *
- * Provides CRUD operations via JpaRepository and
- * a custom method to find a user by their email address.
+ Repository interface for accessing User entities from the database.
+
+ Provides CRUD operations via JpaRepository and
+ a custom method to find a user by their email address.
  */
 
 package com.pm.authservice.repository;

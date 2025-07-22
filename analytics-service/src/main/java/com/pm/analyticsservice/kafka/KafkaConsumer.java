@@ -1,7 +1,7 @@
 /**
- * Kafka consumer for handling patient events from the "patient" topic.
- * Deserializes Protobuf messages into PatientEvent objects.
- * Part of the analytics-service.
+ Kafka consumer for handling patient events from the "patient" topic.
+ Deserializes Protobuf messages into PatientEvent objects.
+ Part of the analytics-service.
  */
 
 package com.pm.analyticsservice.kafka;

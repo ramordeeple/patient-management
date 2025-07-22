@@ -1,6 +1,6 @@
 /**
- * Data Transfer Object for user login requests,
- * including validation for email and password fields.
+ Data Transfer Object for user login requests,
+ including validation for email and password fields.
  */
 
 package com.pm.authservice.dto;
