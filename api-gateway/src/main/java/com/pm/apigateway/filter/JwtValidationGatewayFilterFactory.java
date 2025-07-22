@@ -26,8 +26,8 @@ public class JwtValidationGatewayFilterFactory extends
      */
     public JwtValidationGatewayFilterFactory(WebClient.Builder webClientBuilder,
                                              @Value("${auth.service.url}") String authServiceUrl) {
-        // auth-service:4005
-        // ecs.aws.askfsdffsd:5000
+        /** auth-service:4005
+        ecs.aws.askfsdffsd:5000 as example */
         this.webClient = webClientBuilder.baseUrl(authServiceUrl).build();
     }
     /**
@@ -39,21 +39,21 @@ public class JwtValidationGatewayFilterFactory extends
         return (exchange, chain) -> {
             String token = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
-            // Reject request if token is missing or not in Bearer format
+            /** Reject request if token is missing or not in Bearer format */
             if (token == null || !token.startsWith("Bearer ")) {
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             }
 
-            // Validate the token by calling the external auth service.
-            // If validation succeeds, continue processing the request.
+            /** Validate the token by calling the external auth service.
+            If validation succeeds, continue processing the request. */
             return webClient.get()
-                    .uri("/validate")// Call the external auth service's /validate endpoint to check the token.
-                    .header(HttpHeaders.AUTHORIZATION, token) // Add the Authorization header with the Bearer token from the original request.
-                    .retrieve() // Retrieve the response but ignore the body, only care about the status code.
-                    .toBodilessEntity()// If the response indicates success, continue processing the original request by passing it down the filter chain.
+                    .uri("/validate") /** Call the external auth service's /validate endpoint to check the token. */
+                    .header(HttpHeaders.AUTHORIZATION, token) /** Add the Authorization header with the Bearer token from the original request. */
+                    .retrieve() /** Retrieve the response but ignore the body, only care about the status code. */
+                    .toBodilessEntity() /** If the response indicates success, continue processing the original request by passing it down the filter chain. */
                     .then(chain.filter(exchange));
-                    // After the token validation completes successfully,
-                    // continue processing the request by passing it to the next filter in the chain.
+                    /** After the token validation completes successfully,
+                    continue processing the request by passing it to the next filter in the chain. */
         };
     }
 }
