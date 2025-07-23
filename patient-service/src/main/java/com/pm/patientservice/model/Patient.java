@@ -1,3 +1,11 @@
+/**
+ Represents a Patient entity in the database.
+ Includes fields such as name, email, address, date of birth, and registration date.
+ Annotated for JPA to allow ORM mapping and includes validation constraints
+ to ensure data integrity.
+ */
+
+
 package com.pm.patientservice.model;
 
 import jakarta.persistence.*;

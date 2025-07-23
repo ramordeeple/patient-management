@@ -1,3 +1,8 @@
+/**
+ Data Transfer Object used to return patient information in API responses.
+ Contains basic patient details such as ID, name, email, address, and date of birth.
+ */
+
 package com.pm.patientservice.dto;
 
 public class PatientResponseDTO {

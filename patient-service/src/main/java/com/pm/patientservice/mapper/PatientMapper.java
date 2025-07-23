@@ -1,3 +1,10 @@
+/**
+ Sends patient creation events to a Kafka topic by converting Patient objects
+ into serialized Protobuf messages. Used for notifying other services when a
+ new patient is created.
+ */
+
+
 package com.pm.patientservice.mapper;
 
 import com.pm.patientservice.dto.PatientRequestDTO;
