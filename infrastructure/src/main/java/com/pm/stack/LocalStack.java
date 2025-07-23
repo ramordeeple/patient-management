@@ -1,3 +1,18 @@
+/**
+ LocalStack is an AWS CDK stack designed for local development and testing.
+ It simulates a production-like environment with core infrastructure components:
+
+ - A Virtual Private Cloud (VPC) to isolate network resources.
+ - Amazon RDS PostgreSQL instances for database-backed microservices.
+ - Health checks to monitor database availability.
+ - An Amazon MSK (Managed Streaming for Kafka) cluster for event streaming.
+ - An ECS (Elastic Container Service) cluster running Fargate tasks for containerized microservices.
+ - An API Gateway service to route external requests to internal microservices.
+
+ This stack enables developers to run and test their microservices architecture
+ locally or in isolated environments, mimicking production dependencies.
+ */
+
 package com.pm.stack;
 
 import java.util.HashMap;
@@ -39,28 +54,48 @@ import software.amazon.awscdk.services.rds.PostgresInstanceEngineProps;
 import software.amazon.awscdk.services.route53.CfnHealthCheck;
 
 public class LocalStack extends Stack {
+    /// VPC for isolating the network environment, spanning multiple Availability Zones.
     private final Vpc vpc;
+
+    /// ECS Cluster to manage Fargate services (microservices running as containers).
     private final Cluster ecsCluster;
 
+    /// Constructs the LocalStack, initializing and wiring all infrastructure components.
     public LocalStack(final App scope, final String id, final StackProps props){
         super(scope, id, props);
+
+        /// Creates the VPC with subnets across 2 AZs for high availability.
         this.vpc = createVpc();
+
+        /// Creates PostgreSQL databases for AuthService and PatientService, each isolated.
         DatabaseInstance authServiceDb =
                 createDatabase("AuthServiceDB", "auth-service-db");
 
         DatabaseInstance patientServiceDb =
                 createDatabase("PatientServiceDB", "patient-service-db");
+        /// /////////////////////////////////////////////////////////////////////////////////
 
+
+        /// Creates health checks to monitor database availability.
         CfnHealthCheck authDbHealthCheck =
                 createDbHealthCheck(authServiceDb, "AuthServiceDBHealthCheck");
 
         CfnHealthCheck patientDbHealthCheck =
                 createDbHealthCheck(patientServiceDb, "PatientServiceDBHealthCheck");
+        /// ///////////////////////////////////////////////////////////////////////////////////
 
+        /// Creates a Kafka cluster to support asynchronous event streaming.
         CfnCluster mskCluster = createMskCluster();
 
+        /// Creates ECS cluster to run all containerized microservices.
         this.ecsCluster = createEcsCluster();
 
+        /**
+         Deploy AuthService as a Fargate container:
+         - Listens on port 4005.
+         - Injects JWT_SECRET as an environment variable for authentication.
+         - Depends on the AuthService database and its health check.
+         */
         FargateService authService =
                 createFargateService("AuthService",
                         "auth-service",
@@ -71,6 +106,13 @@ public class LocalStack extends Stack {
         authService.getNode().addDependency(authDbHealthCheck);
         authService.getNode().addDependency(authServiceDb);
 
+
+
+        /**
+         Deploy BillingService as a Fargate container:
+         - Listens on ports 4001 (HTTP) and 9001 (gRPC).
+         - No database dependency
+         */
         FargateService billingService =
                 createFargateService("BillingService",
                         "billing-service",
@@ -78,6 +120,12 @@ public class LocalStack extends Stack {
                         null,
                         null);
 
+
+        /**
+         Deploy AnalyticsService as a Fargate container:
+          - Listens on port 4002.
+          - Depends on Kafka for consuming streaming data.
+         */
         FargateService analyticsService =
                 createFargateService("AnalyticsService",
                         "analytics-service",
@@ -87,6 +135,13 @@ public class LocalStack extends Stack {
 
         analyticsService.getNode().addDependency(mskCluster);
 
+        /**
+         Deploy PatientService as a Fargate container:
+         - Listens on port 4000.
+         - Connects to its own PostgreSQL database.
+         - Configured to communicate with BillingService over gRPC using host.docker.internal.
+         - Depends on BillingService, PatientService DB and its health check, and Kafka.
+         */
         FargateService patientService = createFargateService("PatientService",
                 "patient-service",
                 List.of(4000),
@@ -100,17 +155,31 @@ public class LocalStack extends Stack {
         patientService.getNode().addDependency(billingService);
         patientService.getNode().addDependency(mskCluster);
 
+
+        /// Create API Gateway service to route and expose external requests to internal microservices.
         createApiGatewayService();
     }
 
+    /**
+     Creates a VPC with 2 availability zones for fault tolerance.
+     This VPC isolates the network for all services and resources.
+     */
     private Vpc createVpc(){
         return Vpc.Builder
                 .create(this, "PatientManagementVPC")
                 .vpcName("PatientManagementVPC")
-                .maxAzs(2)
+                .maxAzs(2) /// Spread resources across 2 AZs to improve availability and resilience.
                 .build();
     }
 
+    /**
+     Creates a PostgreSQL RDS database instance:
+     - Version 17.2 of PostgreSQL.
+     - Burstable micro instance type to save costs during development.
+     - Allocated 20GB of storage.
+     - Automatically generated credentials stored securely.
+     - Database removed when stack is destroyed (for ephemeral environments).
+     */
     private DatabaseInstance createDatabase(String id, String dbName){
         return DatabaseInstance.Builder
                 .create(this, id)
@@ -127,18 +196,32 @@ public class LocalStack extends Stack {
                 .build();
     }
 
+    /**
+     Defines a health check for monitoring the database instance's availability.
+     The check attempts to open a TCP connection to the DB endpoint at specified intervals.
+     */
     private CfnHealthCheck createDbHealthCheck(DatabaseInstance db, String id){
         return CfnHealthCheck.Builder.create(this, id)
                 .healthCheckConfig(CfnHealthCheck.HealthCheckConfigProperty.builder()
-                        .type("TCP")
-                        .port(Token.asNumber(db.getDbInstanceEndpointPort()))
-                        .ipAddress(db.getDbInstanceEndpointAddress())
-                        .requestInterval(30)
-                        .failureThreshold(3)
+                        .type("TCP") /// Health check tests TCP port connectivity
+
+                        .port(Token.asNumber(db.getDbInstanceEndpointPort())) /// DB's listening port
+
+                        .ipAddress(db.getDbInstanceEndpointAddress()) /// DB endpoint IP to ping
+                        .requestInterval(30) /// Interval between health check attempts in seconds
+                        .failureThreshold(3) /// Mark service as unhealthy after 3 failures
                         .build())
                 .build();
     }
 
+    /**
+     Creates an Amazon MSK (Managed Kafka) cluster with a single broker node:
+     - Kafka version 2.8.0.
+     - Broker node of instance type kafka.m5.xlarge.
+     - Located within the VPC's private subnets for security.
+
+     Kafka cluster is essential for decoupling services via event-driven architecture.
+     */
     private CfnCluster createMskCluster(){
         return CfnCluster.Builder.create(this, "MskCluster")
                 .clusterName("kafka-cluster")
@@ -148,49 +231,87 @@ public class LocalStack extends Stack {
                         .instanceType("kafka.m5.xlarge")
                         .clientSubnets(vpc.getPrivateSubnets().stream()
                                 .map(ISubnet::getSubnetId)
-                                .collect(Collectors.toList()))
+                                .collect(Collectors.toList())) /// Assigns brokers to private subnets
                         .brokerAzDistribution("DEFAULT")
                         .build())
                 .build();
     }
 
+    /**
+     Creates an ECS Cluster inside the VPC:
+     - Enables AWS Cloud Map service discovery under the namespace "patient-management.local".
+     This facilitates communication between services using DNS within the cluster.
+     */
     private Cluster createEcsCluster(){
         return Cluster.Builder.create(this, "PatientManagementCluster")
                 .vpc(vpc)
-                .defaultCloudMapNamespace(CloudMapNamespaceOptions.builder()
+                .defaultCloudMapNamespace(CloudMapNamespaceOptions.builder() ///
                         .name("patient-management.local")
                         .build())
                 .build();
     }
 
+    /**
+     Creates an ECS Fargate Service for a microservice:
+     - Defines a Fargate task with CPU and memory allocation.
+     - Configures container with image, port mappings, and logging.
+     - Injects environment variables, including DB connection strings if applicable.
+     - Supports additional custom environment variables.
+     */
     private FargateService createFargateService(String id,
                                                 String imageName,
                                                 List<Integer> ports,
                                                 DatabaseInstance db,
                                                 Map<String, String> additionalEnvVars) {
 
+        /// Creates Fargate task definition with 256 CPU units and 512 MB memory
         FargateTaskDefinition taskDefinition =
                 FargateTaskDefinition.Builder.create(this, id + "Task")
                         .cpu(256)
                         .memoryLimitMiB(512)
                         .build();
 
+        /// Build container definition with image, ports, and logging
         ContainerDefinitionOptions.Builder containerOptions =
                 ContainerDefinitionOptions.builder()
+                        /** Specifies the container image to use for this container.
+                        Uses a public Docker registry image identified by 'imageName' (e.g., "auth-service"). */
                         .image(ContainerImage.fromRegistry(imageName))
+                        /**
+                         Defines port mappings between the container and the host environment.
+                         For each port in the 'ports' list, creates a PortMapping:
+                         containerPort: port exposed inside the container
+                         hostPort: port mapped on the host instance running the container (here, mapped 1:1)
+                         protocol: TCP is specified as the communication protocol. */
                         .portMappings(ports.stream()
                                 .map(port -> PortMapping.builder()
                                         .containerPort(port)
-                                        .hostPort(port)
+                                        .hostPort(port) /// map host port to container port
                                         .protocol(Protocol.TCP)
                                         .build())
                                 .toList())
+
+                        /**
+                         Configures logging for the container using AWS CloudWatch Logs.
+                         This helps capture container stdout/stderr logs centrally for monitoring and troubleshooting. */
                         .logging(LogDriver.awsLogs(AwsLogDriverProps.builder()
+                                /**
+                                 Creates a new LogGroup dedicated for this container's logs.
+                                 Log group name is prefixed with "/ecs/" followed by the image name for easy identification. */
                                 .logGroup(LogGroup.Builder.create(this, id + "LogGroup")
                                         .logGroupName("/ecs/" + imageName)
+                                        /**
+                                         Ensures the log group is automatically deleted when the stack is destroyed,
+                                         which is useful for ephemeral dev/test environments. */
                                         .removalPolicy(RemovalPolicy.DESTROY)
+                                        /**
+                                         Logs are retained for 1 day only to reduce storage costs.
+                                         Adjust retention as needed for production environments. */
                                         .retention(RetentionDays.ONE_DAY)
                                         .build())
+                                /**
+                                 Sets a log stream prefix within the log group to identify logs by service.
+                                 This makes it easier to filter logs in CloudWatch. */
                                 .streamPrefix(imageName)
                                 .build()));
 
