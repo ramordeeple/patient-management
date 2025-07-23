@@ -51,7 +51,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        /** Validate token (skip "Bearer " prefix) and return appropriate status */
+        /// Validate token (skip "Bearer " prefix) and return appropriate status
         return authService.validateToken(authHeader.substring(7))
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

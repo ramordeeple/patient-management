@@ -16,10 +16,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
     /**
-     * Configures the security filter chain.
-     *
-     * - Allows all requests without authentication (for now).
-     * - Disables CSRF protection (e.g., useful for APIs).
+     Configures the security filter chain.
+     - Allows all requests without authentication (for now).
+     - Disables CSRF protection (e.g., useful for APIs).
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

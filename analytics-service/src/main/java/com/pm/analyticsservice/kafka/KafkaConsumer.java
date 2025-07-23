@@ -25,7 +25,7 @@ public class KafkaConsumer {
     @KafkaListener(topics = "patient", groupId = "analytics-service")
     public void consumeEvent(byte[] event) {
         try {
-            /** Deserialize the incoming byte array into a PatientEvent object */
+            /// Deserialize the incoming byte array into a PatientEvent object
             PatientEvent patientEvent = PatientEvent.parseFrom(event);
             // TODO: Add business logic to process the patient event (e.g., store in DB, trigger workflows)
 
@@ -33,7 +33,7 @@ public class KafkaConsumer {
                     patientEvent.getPatientId(), patientEvent.getName(), patientEvent.getEmail());
 
         } catch (InvalidProtocolBufferException e) {
-            /** Log deserialization errors for monitoring and especially debugging */
+            /// Log deserialization errors for monitoring and especially debugging
             log.error("Error deserializing event: {}", e.getMessage());
         }
     }

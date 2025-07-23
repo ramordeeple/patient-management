@@ -23,10 +23,10 @@ public class AuthService {
     private final JwtUtil jwtUtil;
 
     /**
-     * Constructor initializing service dependencies:
-     * UserService for user management,
-     * PasswordEncoder for password verification,
-     * JwtUtil for JWT token operations.
+     Constructor initializing service dependencies:
+     UserService for user management,
+     PasswordEncoder for password verification,
+     JwtUtil for JWT token operations.
      */
     public AuthService(UserService userService, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.userService = userService;
@@ -35,12 +35,12 @@ public class AuthService {
     }
 
     /**
-     * Authenticates a user:
-     * 1. Accepts a DTO with login credentials,
-     * 2. tries to find the user by email,
-     * 3. verifies the hashed password,
-     * 4. if valid — generates a JWT token containing email and role,
-     * 5. returns an Optional with the token or empty if authentication fails.
+     Authenticates a user:
+     1. Accepts a DTO with login credentials,
+     2. tries to find the user by email,
+     3. verifies the hashed password,
+     4. if valid — generates a JWT token containing email and role,
+     5. returns an Optional with the token or empty if authentication fails.
      */
     public Optional<String> authenticate(LoginRequestDTO loginRequestDTO) {
         Optional<String> token = userService
@@ -51,9 +51,9 @@ public class AuthService {
         return token;
     }
     /**
-     * Validates a JWT token:
-     * 1. Calls JwtUtil to verify the token's integrity and expiration,
-     * 2. returns true if token is valid, or false if the token is invalid or expired.
+     Validates a JWT token:
+     1. Calls JwtUtil to verify the token's integrity and expiration,
+     2. returns true if token is valid, or false if the token is invalid or expired.
      */
     public boolean validateToken(String token) {
         try {

@@ -27,9 +27,9 @@ public class JwtValidationException {
      */
     @ExceptionHandler(WebClientResponseException.Unauthorized.class)
     public Mono<Void> handleUnauthorizedException(ServerWebExchange exchange) {
-        // Set the HTTP status code to 401 Unauthorized
+        /// Set the HTTP status code to 401 Unauthorized
         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-        // Complete the response without a body
+        //. Complete the response without a body
         return exchange.getResponse().setComplete();
     }
 
