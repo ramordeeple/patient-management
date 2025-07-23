@@ -456,6 +456,7 @@ public class LocalStack extends Stack {
         /// Synthesize the CDK app into a CloudFormation template
         app.synth();
 
+        /// For the confirmation it works
         System.out.println("App synthesizing in progress...");
     }
 }
