@@ -1,0 +1,2 @@
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/ramordeeple/patient-management)
+![GitHub last commit](https://img.shields.io/github/last-commit/ramordeeple/patient-management)
