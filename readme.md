@@ -17,6 +17,7 @@ This is a project built to explore microservices architecture using Spring Boot,
 | **patient-service-db** | PostgreSQL database used by `patient-service` to store patient-related data, such as records, profiles, etc.                                  | 5000               | POSTGRES_DB=db<br>POSTGRES_PASSWORD=password<br>POSTGRES_USER=admin_user                                                                                                                                                                                                                                                                       | --network internal |
 
 ---
+### > ⚠️ Example values only. Use secure, environment-specific credentials.
 
 
 
