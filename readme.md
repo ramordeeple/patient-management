@@ -40,5 +40,5 @@ This is a project built to explore microservices architecture using Spring Boot,
 
 ```bash
 git clone https://github.com/ramordeeple/patient-management.git
-cd patient-service-platform
-docker compose up --build
+cd patient-service
+
