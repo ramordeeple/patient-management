@@ -23,7 +23,7 @@ This is a project built to explore microservices architecture using Spring Boot,
 - Spring Security (JWT)
 - Apache Kafka
 - gRPC (Java implementation)
-- Docker / Docker Compose
+- Docker
 - LocalStack (for AWS mock services)
 
 ---
