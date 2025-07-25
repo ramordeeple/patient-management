@@ -8,7 +8,7 @@ This is a project built to explore microservices architecture using Spring Boot,
 
 | Service           | Description   | Port | Environment variables | Run options |
 |-------------------|---------------| ---- |-----------------------| -----------  |
-| **patient-service**   | Main service for storing and managing patient data (uses `data.sql`) | 4000 | BILLING_SERVICE_ADDRESS=billing-service<br>BILLING_SERVICE_PORT=9001<br>SPRING_DATASOURCE_PASSWORD=password<br>SPRING_DATASOURCE_URL=jdbc:postgresql://patient-service-db:5432/db<br>SPRING_DATASOURCE_USERNAME=admin_user<br>SPRING_JPA_HIBERNATE_DDL_AUTO=update;SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092;SPRING_SQL_INIT_MODE=always
+| **patient-service**   | Main service for storing and managing patient data (uses `data.sql`) | 4000 | BILLING_SERVICE_ADDRESS=billing-service<br>BILLING_SERVICE_PORT=9001<br>SPRING_DATASOURCE_PASSWORD=password<br>SPRING_DATASOURCE_URL=jdbc:postgresql://patient-service-db:5432/db<br>SPRING_DATASOURCE_USERNAME=admin_user<br>SPRING_JPA_HIBERNATE_DDL_AUTO=update<br>SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092<br>SPRING_SQL_INIT_MODE=always
 | **auth-service**      | Handles authentication and authorization using Spring Security and JWT | 4005
 | **analytics-service** | Listens to Kafka events (via a consumer), purpose: event-based processing | 4002
 | **billing-service**   | Exposes a gRPC service to manage billing and communicate with other services | 4001, 9001 on gRPC
