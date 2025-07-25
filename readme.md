@@ -36,9 +36,10 @@ This is a project built to explore microservices architecture using Spring Boot,
 ## 🚀 Getting Started
 
 ### Prerequisites
-
-- Docker 
 - Java 17
+- Docker 
+- LocalStack
+- AWS CLI
 
 
 ### Clone and Run
