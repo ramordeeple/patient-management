@@ -43,7 +43,7 @@ This is a project built to explore microservices architecture using Spring Boot,
 
 
 
-## How to make it work?
+## ⚙️ How to make it work?
 ### Clone
 ```
 git clone https://github.com/ramordeeple/patient-management.git
@@ -52,4 +52,8 @@ cd patient-service
 
 1. Open docker desktop and be sure that its engine is working 
 <br>![img.png](img.png)
-2. 
+2. Open and sign in LocalStack Desktop app.
+3. In your profile in Auth tokens copy the personal auth-token.
+4. In desktop LocalStack click on `Launch New LocalStack Container`.
+5. You'll see a window and all what need you to do is give a name to the localstack container and paste auth-token into Env Vars where `Value` is. And just press `Create` button.
+<br>![img_1.png](img_1.png)
