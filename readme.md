@@ -44,7 +44,7 @@ This is a project built to explore microservices architecture using Spring Boot,
 
 
 ## ⚙️ How to make it work?
-### Clone
+### Clone.
 ```
 git clone https://github.com/ramordeeple/patient-management.git
 cd patient-service
