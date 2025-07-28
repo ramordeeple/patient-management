@@ -50,10 +50,11 @@ git clone https://github.com/ramordeeple/patient-management.git
 cd patient-service
 ```
 
+### Ensure Docker Desktop and LocalStack are working on correctly.
 1. Open docker desktop and be sure that its engine is working 
-<br>![img.png](img.png)
+<br>![img](pics/running.png)
 2. Open and sign in LocalStack Desktop app.
 3. In your profile in Auth tokens copy the personal auth-token.
 4. In desktop LocalStack click on `Launch New LocalStack Container`.
-5. You'll see a window and all what need you to do is give a name to the localstack container and paste auth-token into Env Vars where `Value` is. And just press `Create` button.
-<br>![img_1.png](img_1.png)
+5. You will see a window and all what need you to do there, is give a name to the localstack container and paste auth-token into Env Vars where `Value` is. And just press `Create` button.
+<br>![img_1](pics/env_vars.png)
