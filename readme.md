@@ -42,9 +42,14 @@ This is a project built to explore microservices architecture using Spring Boot,
 - AWS CLI
 
 
-### Clone and Run
 
-```bash
+## How to make it work?
+### Clone
+```
 git clone https://github.com/ramordeeple/patient-management.git
 cd patient-service
+```
 
+1. Open docker desktop and be sure that its engine is working 
+<br>![img.png](img.png)
+2. 
