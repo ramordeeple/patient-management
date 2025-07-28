@@ -57,4 +57,6 @@ cd patient-service
 3. In your profile in Auth tokens copy the personal auth-token.
 4. In desktop LocalStack click on `Launch New LocalStack Container`.
 5. You will see a window and all what need you to do there, is give a name to the localstack container and paste auth-token into Env Vars where `Value` is. And just press `Create` button.
-<br>![img_1](pics/env_vars.png)
+<br>![img](pics/env_vars.png)
+6. Ensure container is running correctly with green dot mark. Otherwise try to turn off VPNs.
+<br>![img](pics/ok.png)
