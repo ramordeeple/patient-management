@@ -51,7 +51,8 @@ cd patient-service
 ```
 
 ### Ensure Docker Desktop and LocalStack are working on correctly.
-1. Open docker desktop and be sure that its engine is working 
+1. Open docker desktop and be sure that its engine is working
+<br>![img](pics/engine.png)
 <br>![img](pics/running.png)
 2. Open and sign in LocalStack Desktop app.
 3. In your profile in Auth tokens copy the personal auth-token.
