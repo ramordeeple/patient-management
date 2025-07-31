@@ -64,7 +64,7 @@ cd patient-service
 <br>![img](pics/ok.png)
 
 ### Engage with the dockerfiles
-1. Build each docker image from service `` modules by choosing them in `Run / Debug configuration` and clicking on ![img](pics/run_button.png) button. Make it with all dockerfiles from `Services Overview` with related ports and environment variables.
+1. Build each docker image from service modules by choosing them in `Run / Debug configuration` and clicking on ![img](pics/run_button.png) button. Make it with all dockerfiles from `Services Overview` with related ports and environment variables.
 2. 
 
 
