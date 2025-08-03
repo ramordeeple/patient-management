@@ -52,7 +52,7 @@ cd patient-service
 ```
 
 ### Ensure Docker Desktop and LocalStack are working on correctly.
-1. Open docker desktop and be sure that its engine is working
+1. Open docker desktop and be sure that its engine is working.
 <br>![img](pics/engine.png)
 <br>![img](pics/running.png)
 2. Open and sign in LocalStack Desktop app.
@@ -65,6 +65,8 @@ cd patient-service
 
 ### Engage with the dockerfiles
 1. Build each docker image from service modules by making them in `Run / Debug Configurations` menu by clicking on three dots in right menu bar ![img_3.png](pics/right.png) and clicking on `Edit`. Make it with all dockerfiles from `Services Overview` with related ports, environment variables and run options.
-2. In `Docker image name / Image ID/ image Tag` input the service's name and add to it `:latest`. For kafka input `bitnami/kafka:latest`. For all db services input `postgres:latest`. For `auth-service-db` in `bind mounts` input `*any path*/auth-service-db:/var/lib/postgresql/`. And for `patient-service-db` input `*any path*/patient-service-db:/var/lib/postgresql/data`.
+2. In `Docker image name / Image ID/ image Tag` input the service's name and add to it `:latest`. For `kafka` input `bitnami/kafka:latest`. For all db services input `postgres:latest`. For `auth-service-db` in `bind mounts` input `*any path*/auth-service-db:/var/lib/postgresql/`. And for `patient-service-db` input `*any path*/patient-service-db:/var/lib/postgresql/data`.
 3. After creating the images press `Alt+8` and ensure you see something like this. ![img](pics/dropmenu.png)
 4. Stop those containers except `localstack` either in `Docker Desktop` or `Alt+8` menu in Intellij. 
+
+### Preparing those service containers for `LocalStack`
