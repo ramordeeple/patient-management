@@ -64,7 +64,7 @@ cd patient-service
 <br>![img](pics/ok.png)
 
 ### Engage with the dockerfiles
-Build each docker image from service modules by making them in `Run / Debug Configurations` menu by clicking on three dots in right menu bar ![img_3.png](pics/right.png) and clicking on `Edit`. Make it with all dockerfiles from `Services Overview` with related ports, environment variables and run options.
-
+1. Build each docker image from service modules by making them in `Run / Debug Configurations` menu by clicking on three dots in right menu bar ![img_3.png](pics/right.png) and clicking on `Edit`. Make it with all dockerfiles from `Services Overview` with related ports, environment variables and run options.
+2. In `Docker image name / Image ID/ image Tag` input the service's name and add to it `:latest`. For kafka input `bitnami/kafka:latest`.
 
 
