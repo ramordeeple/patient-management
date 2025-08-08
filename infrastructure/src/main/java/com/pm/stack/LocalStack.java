@@ -222,7 +222,15 @@ public class LocalStack extends Stack {
 
      Kafka cluster is essential for decoupling services via event-driven architecture.
      */
-    private CfnCluster createMskCluster(){
+    private CfnCluster createMskCluster() {
+        boolean isLocal = "true".equals(System.getenv("IS_LOCALSTACK"));
+
+        if (isLocal) {
+            System.out.println("Skipping MSK cluster creation in local mode");
+            return null;
+        }
+
+
         return CfnCluster.Builder.create(this, "MskCluster")
                 .clusterName("kafka-cluster")
                 .kafkaVersion("2.8.0")
@@ -245,7 +253,7 @@ public class LocalStack extends Stack {
     private Cluster createEcsCluster(){
         return Cluster.Builder.create(this, "PatientManagementCluster")
                 .vpc(vpc)
-                .defaultCloudMapNamespace(CloudMapNamespaceOptions.builder() ///
+                .defaultCloudMapNamespace(CloudMapNamespaceOptions.builder()
                         .name("patient-management.local")
                         .build())
                 .build();

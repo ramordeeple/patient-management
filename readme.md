@@ -71,4 +71,11 @@ cd patient-service
 
 ### Preparing those service containers for `LocalStack`
 1. Run `LocalStack.java` in `infrastructure` module for generating JSONs in `cdk.out` for further imitating AWS resources locally.
-2. Run `localstack-deploy.sh` script via `./localstack-deploy.sh` command inside `infrastructure`. After executing the script, you gotta see in terminal the message `Successfully created/updated stack - patient-management`. 
+2. Run `localstack-deploy.sh` script via `./localstack-deploy.sh` command inside `infrastructure`. After executing the script, you gotta see in terminal the message `Successfully created/updated stack - patient-management`. And after that message you should see something like this `lb-dd5503ae.elb.localhost.localstack.cloud:4004`. Copy it for further steps.
+
+### Checking out that it really works
+1. Ensure that in `Alt+8` in services you see a bunch of containers with `Is-ecs` prefix.
+2. Check their logs ensuring all of them are running correctly with status `200`.
+3. In `api-requests/login.http`, try by it to make a `POST` `http://lb-dd5503ae.elb.localhost.localstack.cloud:4004/auth/login` request with `Content-Type: application/json {"email":"anyemailyou@want.com", "password":123`. And you shall see a response.
+4. You can check all http requests work correctly, all what you need is change the generated `lb-dd5503ae.elb.localhost.localstack.cloud:4004` thing to yours.
+5. Also in `billing-service` container, after creating a new patient, in logs you will see a message from `kafka`, proving that it's working correctly as well.
