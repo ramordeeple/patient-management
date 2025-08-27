@@ -26,7 +26,6 @@ This is a project built to explore microservices architecture using Spring Boot,
 
 - Java 17
 - Spring Boot 3.5.0
-- Spring Security (JWT)
 - Apache Kafka
 - gRPC (Java implementation)
 - Docker
